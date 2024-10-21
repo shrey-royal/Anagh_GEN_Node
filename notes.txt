@@ -1,0 +1,11 @@
+dependency: An external package that your project needs to function properly in production
+
+user dependency: This term generally refers to the specific dependencies required for your application to run. It usually encompasses both regular dependencies and any specific versions or configurations that the project needs to operate correctly.
+
+dev dependency: Packages that are only needed during the development phase, not in production. These might include testing frameworks, build tools, and linters.
+
+-- Commands
+Install Pakage (globally): npm install <pkg_name> -g
+
+userDependencies: npm install <pkg_name>
+devDependencies: npm install --save-dev <pkg_name>
