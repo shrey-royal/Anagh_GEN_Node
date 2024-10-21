@@ -9,3 +9,9 @@ Install Pakage (globally): npm install <pkg_name> -g
 
 userDependencies: npm install <pkg_name>
 devDependencies: npm install --save-dev <pkg_name>
+
+
+-- DB Connection
+
+Download the mongodb Community server
+npm install mongoose
