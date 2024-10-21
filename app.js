@@ -1,20 +1,53 @@
-// const { name, age } = require("./basics/person")
+const express = require("express")
+const app = express()
 
-// console.log(name, age);
+const PORT = 3000
 
-const user = require("./basics/users")
+const users = [
+    {
+        id: 1,
+        userName: "Anagh",
+        age: 21
+    },
+    {
+        id: 2,
+        userName: "Pankaj",
+        age: 22
+    },
+    {
+        id: 3,
+        userName: "Hritik",
+        age: 23
+    },
+    {
+        id: 4,
+        userName: "Suresh",
+        age: 19
+    },
+    {
+        id: 5,
+        userName: "Meet",
+        age: 23
+    },
+    {
+        id: 6,
+        userName: "Mahendra",
+        age: 24
+    }
+]
 
-user.userData()
+app.get("/users", (req, res) => {
+//     console.log("user get api called");
+//     res.json({
+//         "msg": "api called"
+//     });
 
-console.log(user.multiply(2, 3));
-
-user.user_arr.forEach(u => {
-    console.log(u);
+    res.status(200).json({
+        data: users,
+        message: "User list fetched successfully!"
+    })
 });
 
-// arr = user.user_arr;
-// for (let index = 0; index < arr.length; index++) {
-//     console.log(arr[index]);
-// }
-
-console.log(user.getUserById(2));
+app.listen(PORT, () => {
+    console.log(`Server running at http://localhost:${PORT}`);
+})
