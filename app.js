@@ -4,9 +4,14 @@ const app = express()
 // server port
 const PORT = 3000
 
-// db config
+//db config
 const dbConnection = require("./util/DB")
 dbConnection();
+
+app.use(express.json());    //get the user data in req.body as json format
+
+const userRoutes = require("./routes/UserRoutes");
+app.use("/users", userRoutes);
 
 app.get("/", (req, res) => {
     res.json({
