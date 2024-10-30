@@ -13,10 +13,12 @@ app.use(express.json());    //get the user data in req.body as json format
 const userRoutes = require("./routes/UserRoutes");
 const productCategoryRoutes = require("./routes/ProductCategoryRoutes");
 const productRoutes = require("./routes/ProductRoutes");
+const employeeRoutes = require("./routes/EmployeeRoutes");
 
 app.use("/users", userRoutes);
 app.use("/category", productCategoryRoutes);
 app.use("/products", productRoutes);
+app.use("/employees", employeeRoutes);
 
 
 app.get("/", (req, res) => {
