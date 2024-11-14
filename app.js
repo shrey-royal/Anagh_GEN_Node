@@ -14,11 +14,15 @@ const userRoutes = require("./routes/UserRoutes");
 const productCategoryRoutes = require("./routes/ProductCategoryRoutes");
 const productRoutes = require("./routes/ProductRoutes");
 const employeeRoutes = require("./routes/EmployeeRoutes");
+const questionRoutes = require("./routes/QuestionRoutes");
+const examRoutes = require("./routes/ExamRoutes");
 
 app.use("/users", userRoutes);
 app.use("/category", productCategoryRoutes);
 app.use("/products", productRoutes);
 app.use("/employees", employeeRoutes);
+app.use("/question", questionRoutes);
+app.use("/exam", examRoutes);
 
 
 app.get("/", (req, res) => {
