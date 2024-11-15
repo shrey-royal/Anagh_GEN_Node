@@ -21,7 +21,29 @@ const createQuestion = async (req, res) => {
     }
 }
 
+const getAllQuestions = async(req, res) => {
+    try {
+        const question = await questionModel.find();
+        if(question && question.length > 0) {
+            res.status(200).json({
+                message: "All Questions",
+                data: question,
+            });
+        } else {
+            res.status(200).json({
+                message: "No questions found",
+                data: []
+            });
+        }
+    } catch (err) {
+        res.status(500).json({
+            message: err.message
+        });
+    }
+}
+
 
 module.exports = {
     createQuestion,
+    getAllQuestions,
 }
