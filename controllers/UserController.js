@@ -1,5 +1,6 @@
 const userModel = require("../models/UserModel");
 const encrypt = require("../util/encrypt");
+const tokenUtil = require("../util/tokenUtil");
 
 const addUser = async(req, res) => {
     // const user = req.body
@@ -96,6 +97,41 @@ const getUserByAge = async(req, res) => {
     }
 }
 
+const loginUser = async(req, res) => {
+    try {
+        const email = req.body.email;
+        const password = req.body.password;
+
+        const emailFromUser = await userModel.findOne({ email: email });
+
+        if (emailFromUser) {
+            const isPasswordMatched = encrypt.comparePassword(password, emailFromUser.password);
+            
+            if(isPasswordMatched == true) {
+                
+                const token = tokenUtil.generateToken(emailFromUser.toObject());
+                res.status(200).json({
+                    message: "Login Success",
+                    data: token,
+                })
+            } else {
+                res.status(400).json({
+                    message: "Invalid Password"
+                })
+            }
+        } else {
+            res.status(400).json({
+                message: "User not found!"
+            })
+        }
+    } catch (err) {
+        res.status(500).json({
+            message: "Internal Server Error",
+            error: err
+        })
+    }
+}
+
 module.exports = {
     addUser,
     getAllUsersFromDB,
@@ -103,4 +139,5 @@ module.exports = {
     updateUser,
     deleteUser,
     getUserByAge,
+    loginUser,
 }
