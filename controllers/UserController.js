@@ -3,6 +3,7 @@ const encrypt = require("../util/encrypt");
 const tokenUtil = require("../util/tokenUtil");
 const cloudinaryController = require("./CloudinaryController");
 const multer = require("multer");
+const mailUtil = require("../util/mailUtil");
 
 const addUser = async(req, res) => {
     // const user = req.body
@@ -25,6 +26,8 @@ const addUser = async(req, res) => {
     });
 
     const saveUser = await userModel.create(userObject);
+    await mailUtil.sendMail(saveUser.email, "Welcome", "Welcome to our app");
+    //otp
 
     res.status(201).json({
         message: "success",
@@ -140,6 +143,7 @@ const storage = multer.diskStorage({
         cb(null, file.originalname);
     },
 });
+
 const upload = multer({
     storage: storage,
     fileFilter: function (req, file, cb) {
@@ -150,6 +154,7 @@ const upload = multer({
         }
     }
 }).single("file");
+
 const uploadFile = async(req, res) => {
     try {
         upload(req, res, async(err) => {
