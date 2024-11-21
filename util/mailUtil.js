@@ -5,8 +5,8 @@ const sendMail = async (to, subject, text) => {
     const transporter = mailer.createTransport({
         service: "gmail",
         auth: {
-            user: "your_email", // Ensure this is your email
-            pass: "your_app_password" // Your 16-character app password
+            user: "shreykadia.royal@gmail.com", // Ensure this is your email
+            pass: "toeibsiipvossgcm" // Your 16-character app password
         },
     });
 
@@ -29,7 +29,7 @@ const sendMail = async (to, subject, text) => {
         console.log('Email Sent: ', mailRes);
         return mailRes;
     } catch (err) {
-        console.error('Error sending mail: ', error);
+        console.error('Error sending mail: ', err);
         throw err;
     }
 }

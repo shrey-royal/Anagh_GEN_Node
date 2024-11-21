@@ -4,6 +4,7 @@ const tokenUtil = require("../util/tokenUtil");
 const cloudinaryController = require("./CloudinaryController");
 const multer = require("multer");
 const mailUtil = require("../util/mailUtil");
+const otpSchema = require("../models/OtpModel");
 
 const addUser = async(req, res) => {
     // const user = req.body
@@ -26,8 +27,14 @@ const addUser = async(req, res) => {
     });
 
     const saveUser = await userModel.create(userObject);
-    await mailUtil.sendMail(saveUser.email, "Welcome", "Welcome to our app");
-    //otp
+    
+    const otp = Math.floor(1000 + Math.random() * 9000);
+    const otpObject = {
+        email: userObject.email,
+        otp: otp,
+    }
+    await otpSchema.create(otpObject)
+    await mailUtil.sendMail(saveUser.email, "Validate your E-mail", `Your OTP is ${otp}`);
 
     res.status(201).json({
         message: "success",
@@ -186,6 +193,42 @@ const uploadFile = async(req, res) => {
     }
 }
 
+const verifyUser = async(req, res) => {
+    const email = req.body.email;
+    const otp = req.body.otp;
+
+    const isMatch = await otpSchema.findOne({
+        email: email,
+        otp: otp,
+    });
+
+    if(isMatch) {
+        await userModel.findOneAndUpdate(
+            {
+                email: email,
+            },
+            {
+                $set: {
+                    status: true
+                }
+            }
+        );
+
+        await otpSchema.findOneAndDelete({
+            email: email,
+            otp: otp,
+        }); 
+
+        res.status(200).json({
+            message: "User verified successfully"
+        });
+    } else {
+        res.status(400).json({
+            message: "Invalid OTP"
+        });
+    }
+}
+
 module.exports = {
     addUser,
     getAllUsersFromDB,
@@ -195,4 +238,5 @@ module.exports = {
     getUserByAge,
     loginUser,
     uploadFile,
+    verifyUser,
 }
